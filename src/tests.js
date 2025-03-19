@@ -2,8 +2,15 @@ import {createTodo, getTodo, deleteTodo, getTodosList, recoverTodosFromLocalStor
 import {createProject, getProject, deleteProject, getProjectsList, recoverProjectsFromLocalStorage, updateProject} from "./projects";
 
 function consoleLogTodosAndProjects(){
-    console.log({"Projects List": getProjectsList().slice()});
-    console.log({"Todos List": getTodosList().slice()});
+    // console.log({"Projects List": getProjectsList().slice()});
+    console.log(
+        "%c Projects List:",
+        "color: white; background-color:rgb(15, 85, 31); padding: 2px 6px; border-radius: 4px; font-weight: bold;",
+        getProjectsList().slice()
+      );
+    console.log("%c Todos List",
+        "color: white; background-color:rgb(126, 50, 15); padding: 2px 6px; border-radius: 4px; font-weight: bold;",
+        getTodosList().slice());
 }
 
 let projectIdIncrement = 100; // This is to override uuid for projects
