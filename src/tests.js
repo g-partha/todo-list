@@ -13,6 +13,11 @@ function consoleLogTodosAndProjects(){
         getTodosList().slice());
 }
 
+function consoleLogTestName(testName){
+    console.log("");
+    console.log(`%c ${testName}`, "font-weight: bold; font-size: 18px; background-color: navy;");
+}
+
 let projectIdIncrement = 100; // This is to override uuid for projects
 let todoIdIncrement = 9000; // This is to override uuid for todos
 
@@ -30,35 +35,50 @@ function createTestTodo(testTitle, testDescription, testDueDate, testPriority, t
     todoIdIncrement++;
 }
 
-
 function testProjectFunctions(){
+    consoleLogTestName("Test createProject with uuid overridden");
     createTestProject("Maths", "this is a maths project");
     createTestProject("Physics", "this is a physics project");
     createTestProject("Biology", "this is a biology project");
-    
     consoleLogTodosAndProjects();
 
+    consoleLogTestName("Test deleteProject")
     deleteProject("101");
-
     consoleLogTodosAndProjects();
 
+    consoleLogTestName("Test getProject");
+    console.log(getProject("102"));
+
+    consoleLogTestName("Test updateProject");
+    updateProject("100", "description", "this is the updated project description");
+    consoleLogTodosAndProjects();
 }
 
-testProjectFunctions();
 
 function testTodoFunctions(){
+    consoleLogTestName("Create todo with uuid overridden");
     createTestTodo("Do homework", "I'm doing homework", "09098888", "low priority", "completed");
     createTestTodo("Buy potato", "I have to buy round potatoes", "09098888", "high priority", "not completed");
     createTestTodo("Boil the milk", "It is in the jug", "09098888", "medium priority", "completed");
-    
     consoleLogTodosAndProjects();
 
+    consoleLogTestName("Test deleteTodo");
     deleteTodo("9001");
+    consoleLogTodosAndProjects();
 
+    consoleLogTestName("Test getTodo");
+    console.log(getTodo("9000"));
+
+    consoleLogTestName("Test updateTodo");
+    updateTodo("9002", "description", "this is the updated todo description");
     consoleLogTodosAndProjects();
 }
 
+
+testProjectFunctions();
+
 testTodoFunctions();
+
 
 
 
