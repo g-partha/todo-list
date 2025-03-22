@@ -1,5 +1,5 @@
-import {createTodo, getTodo, deleteTodo, getTodosList, recoverTodosFromLocalStorage, updateTodo} from "./todos";
-import {createProject, getProject, deleteProject, getProjectsList, recoverProjectsFromLocalStorage, updateProject} from "./projects";
+import {createTodo, getTodo, getTodosByProject, deleteTodo, getTodosList, updateTodo, recoverTodosFromLocalStorage,} from "./todos";
+import {createProject, getProject, deleteProject, getProjectsList, updateProject, recoverProjectsFromLocalStorage,} from "./projects";
 import "./tests";
 
 recoverTodosFromLocalStorage();
