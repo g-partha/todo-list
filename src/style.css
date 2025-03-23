@@ -1,0 +1,33 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+div#container{
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+}
+div#sidebar{
+    grid-column: 1 / 2;
+    background-color: rgba(1, 1, 96, 0.653);
+    display: grid;
+    grid-template-rows: 100px 1fr;
+}
+#nav-bar{
+    grid-row: 2 / 3;
+    padding-left: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+}
+.nav-buttons{
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    text-align: left;
+}
