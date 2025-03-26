@@ -31,3 +31,6 @@ div#sidebar{
     font-size: 16px;
     text-align: left;
 }
+#content{
+    background-color: aqua;
+}

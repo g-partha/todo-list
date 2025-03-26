@@ -7,10 +7,18 @@ const navBar = document.createElement("nav");
 navBar.setAttribute("id", "nav-bar");
 sidebar.appendChild(navBar);
 const todosButton = document.createElement("button");
-todosButton.classList.toggle("nav-buttons");
+todosButton.classList.add("nav-buttons");
 todosButton.textContent = "Todos";
 navBar.appendChild(todosButton);
 const projectsButton = document.createElement("button");
-projectsButton.classList.toggle("nav-buttons");
+projectsButton.classList.add("nav-buttons");
 projectsButton.textContent = "Projects";
 navBar.appendChild(projectsButton);
+
+const content = document.createElement("div");
+content.setAttribute("id", "content");
+container.appendChild("content");
+
+function openTodoForm(operation){
+    
+}
