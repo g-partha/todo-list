@@ -83,7 +83,4 @@ testTodoFunctions();
 
 
 
-
-
-
 localStorage.clear(); //Added to override recoverTodosFromLocalStorage & recoverProjectsFromLocalStorage.

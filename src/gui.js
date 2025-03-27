@@ -1,5 +1,5 @@
 import { getProjectsList } from "./projects";
-import { createTodo } from "./todos";
+import { createTodo, getTodosList } from "./todos";
 
 const container = document.querySelector("div#container");
 
@@ -20,7 +20,7 @@ navBar.appendChild(projectsButton);
 
 const content = document.createElement("div");
 content.setAttribute("id", "content");
-container.appendChild("content");
+container.appendChild(content);
 
 function openTodoForm(action, todoUniqueId){ //todoUniqueId is only required for action === "update"
     if(document.querySelector("#todo-form-container")){
@@ -31,7 +31,7 @@ function openTodoForm(action, todoUniqueId){ //todoUniqueId is only required for
     todoFormContainer.setAttribute("id", "todo-form-container");
     content.appendChild(todoFormContainer);
 
-    const todoForm = document.querySelector("form");
+    const todoForm = document.createElement("form");
     todoForm.classList.add("forms");
     todoFormContainer.appendChild(todoForm);
 
@@ -48,6 +48,7 @@ function openTodoForm(action, todoUniqueId){ //todoUniqueId is only required for
     titleInput.setAttribute("name", "title");
     titleInput.setAttribute("id", "title-input");
     titleInput.classList.add("text-inputs");
+    titleContainer.appendChild(titleInput);
 
     const descriptionContainer = document.createElement("div");
     descriptionContainer.classList.add("text-input-containers");
@@ -62,6 +63,7 @@ function openTodoForm(action, todoUniqueId){ //todoUniqueId is only required for
     descriptionInput.setAttribute("name", "description");
     descriptionInput.setAttribute("id", "description-input");
     descriptionInput.classList.add("text-inputs");
+    descriptionContainer.appendChild(descriptionInput);
 
     const projectContainer = document.createElement("div");
     projectContainer.setAttribute("id", "project-container");
@@ -103,6 +105,7 @@ function openTodoForm(action, todoUniqueId){ //todoUniqueId is only required for
             content.removeChild(document.querySelector("#todo-form-container"));
         });
     }
+    buttonsContainer.appendChild(submitButton);
     const cancelButton = document.createElement("button");
     cancelButton.classList.add("cancel-button");
     cancelButton.textContent = "Cancel";
@@ -110,6 +113,7 @@ function openTodoForm(action, todoUniqueId){ //todoUniqueId is only required for
         event.preventDefault();
         content.removeChild(document.querySelector("#todo-form-container"));
     });
+    buttonsContainer.appendChild(cancelButton);
 
 
 }

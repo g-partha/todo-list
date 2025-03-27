@@ -33,43 +33,60 @@ div#sidebar{
 }
 #content{
     grid-column: 2 / 3;
+    background-color: black;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
 }
 
 .form-containers{
-    background-color: bisque;
     grid-column: 1 / 2;
     grid-row: 1 / 2;
+    background-color: rgba(255, 228, 196, 0.6);
+    display: grid;
+    align-items: center;
+    justify-content: center;
 }
-.form{
-
+.forms{
+    padding: 50px;
+    background-color: rgba(0, 0, 255, 0.726);
+    border-radius: 20px;
+    box-shadow: 0 0 10px 5px grey;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
-.text-input-containers{
-
+.text-input-containers, #project-container{
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    gap: 5px;
 }
-.text-input-labels{
-
+.text-input-labels, #project-select-label{
+    color: white;
 }
-.text-inputs{
-
-}
-#project-container{
-    
-}
-#project-select-label{
-
-}
-#project-select{
-
+.text-inputs, #project-select{
+    background-color: rgba(255, 255, 255, 0.808);
+    color: rgb(0, 0, 0);
+    border: 1px solid grey;
+    border-radius: 10px;
+    height: 25px;
+    width: 300px;
+    padding: 0 7px;
 }
 .buttons-container{
-
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
-.submit-button{
-
+.submit-button, .cancel-button{
+    width: 100px;
+    height: 30px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 7px rgba(33, 0, 198, 0.669);
 }
-.calcel-button{
-    
+.cancel-button{
+    background-color: rgba(255, 0, 0, 0.769);
+    color: white;
 }
