@@ -32,5 +32,44 @@ div#sidebar{
     text-align: left;
 }
 #content{
-    background-color: aqua;
+    grid-column: 2 / 3;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
+
+.form-containers{
+    background-color: bisque;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+.form{
+
+}
+.text-input-containers{
+
+}
+.text-input-labels{
+
+}
+.text-inputs{
+
+}
+#project-container{
+    
+}
+#project-select-label{
+
+}
+#project-select{
+
+}
+.buttons-container{
+
+}
+.submit-button{
+
+}
+.calcel-button{
+    
 }
