@@ -85,6 +85,87 @@ function openTodoForm(action, todoUniqueId){ //todoUniqueId is only required for
         projectSelect.appendChild(projectOptions[i]);
     }
 
+    const dueDateContainer = document.createElement("div");
+    dueDateContainer.setAttribute("id", "due-date-container");
+    todoForm.appendChild(dueDateContainer);
+    const dueDateInputLabel = document.createElement("label");
+    dueDateInputLabel.setAttribute("for", "due-date-input");
+    dueDateInputLabel.setAttribute("id", "due-date-input-label");
+    dueDateInputLabel.textContent = "Due date";
+    dueDateContainer.appendChild(dueDateInputLabel);
+    const dueDateInput = document.createElement("input");
+    dueDateInput.setAttribute("type", "date");
+    dueDateInput.setAttribute("id", "due-date-input");
+    dueDateInput.setAttribute("name", "due_date");
+    dueDateContainer.appendChild(dueDateInput);
+
+    const priorityContainer = document.createElement("div");
+    priorityContainer.setAttribute("id", "priority-container");
+    todoForm.appendChild(priorityContainer);
+    const prioritySelectLabel = document.createElement("label");
+    prioritySelectLabel.setAttribute("for", "priority-select");
+    prioritySelectLabel.setAttribute("id", "priority-select-label");
+    prioritySelectLabel.textContent = "Priority";
+    priorityContainer.appendChild(prioritySelectLabel);
+    const prioritySelect = document.createElement("select");
+    prioritySelect.setAttribute("id", "priority-select");
+    prioritySelect.setAttribute("name", "priority");
+    priorityContainer.appendChild(prioritySelect);
+    const priorityOne = document.createElement("option");
+    priorityOne.setAttribute("value", "P1");
+    priorityOne.textContent = "P1"
+    prioritySelect.appendChild(priorityOne);
+    const priorityTwo = document.createElement("option");
+    priorityTwo.setAttribute("value", "P2");
+    priorityTwo.textContent = "P2"
+    prioritySelect.appendChild(priorityTwo);
+    const priorityThree = document.createElement("option");
+    priorityThree.setAttribute("value", "P3");
+    priorityThree.textContent = "P3"
+    prioritySelect.appendChild(priorityThree);
+    const priorityFour = document.createElement("option");
+    priorityFour.setAttribute("value", "P4");
+    priorityFour.setAttribute("selected", "");
+    priorityFour.textContent = "P4"
+    prioritySelect.appendChild(priorityFour);
+
+    const completionStatusFieldset = document.createElement("fieldset");
+    completionStatusFieldset.setAttribute("id", "completion-status-fieldset");
+    todoForm.appendChild(completionStatusFieldset);
+    const completionStatusLegend = document.createElement("legend");
+    completionStatusLegend.textContent = "Completed";
+    completionStatusFieldset.appendChild(completionStatusLegend);
+    const completedContainer = document.createElement("div");
+    completedContainer.classList.add("radio-button-container");
+    completionStatusFieldset.appendChild(completedContainer);
+    const completedRadio = document.createElement("input");
+    completedRadio.setAttribute("type", "radio");
+    completedRadio.setAttribute("id", "completed-radio");
+    completedRadio.setAttribute("name", "completion_radio");
+    completedRadio.setAttribute("value", "completed");
+    completedContainer.appendChild(completedRadio);
+    const completedLabel = document.createElement("label");
+    completedLabel.classList.add("completion-radio-label");
+    completedLabel.setAttribute("for", "completed-radio");
+    completedLabel.textContent = "Yes";
+    completedContainer.appendChild(completedLabel);
+    const notCompletedContainer = document.createElement("div");
+    notCompletedContainer.classList.add("radio-button-container");
+    completionStatusFieldset.appendChild(notCompletedContainer);
+    const notCompletedRadio = document.createElement("input");
+    notCompletedRadio.setAttribute("type", "radio");
+    notCompletedRadio.setAttribute("id", "not-completed-radio");
+    notCompletedRadio.setAttribute("name", "completion_radio");
+    notCompletedRadio.setAttribute("value", "Not completed");
+    notCompletedRadio.setAttribute("checked", "");
+    notCompletedContainer.appendChild(notCompletedRadio);
+    const notCompletedLabel = document.createElement("label");
+    notCompletedLabel.classList.add("completion-radio-label");
+    notCompletedLabel.setAttribute("for", "not-completed-radio");
+    notCompletedLabel.textContent = "No";
+    notCompletedContainer.appendChild(notCompletedLabel);
+
+
     const buttonsContainer = document.createElement("div");
     buttonsContainer.classList.add("buttons-container");
     todoForm.appendChild(buttonsContainer);

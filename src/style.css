@@ -56,16 +56,17 @@ div#sidebar{
     flex-direction: column;
     gap: 20px;
 }
-.text-input-containers, #project-container{
+.text-input-containers, #project-container, #due-date-container, #priority-container, #completion-status-fieldset{
     flex-direction: column;
     align-items: center;
     display: flex;
     gap: 5px;
 }
-.text-input-labels, #project-select-label{
+
+.text-input-labels, #project-select-label, #due-date-input-label, #priority-select-label, .completion-radio-label{
     color: white;
 }
-.text-inputs, #project-select{
+.text-inputs, #project-select, #due-date-input, #priority-select{
     background-color: rgba(255, 255, 255, 0.808);
     color: rgb(0, 0, 0);
     border: 1px solid grey;
@@ -74,6 +75,20 @@ div#sidebar{
     width: 300px;
     padding: 0 7px;
 }
+
+#completion-status-fieldset{
+    gap: 10px;
+    flex-direction: row;
+    justify-content: center;
+}
+#completion-status-fieldset > legend{
+    text-align: center;
+    color: white;
+}
+#completed-radio, #not-completed-radio{
+
+}
+
 .buttons-container{
     display: flex;
     justify-content: center;

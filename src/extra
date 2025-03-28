@@ -1,0 +1,14 @@
+    const notCompletedContainer = document.createElement("div");
+    notCompletedContainer.setAttribute("radio-button-container");
+    completionStatusContainer.appendChild(notCompletedContainer);
+    const notCompletedLabel = document.createElement("label");
+    notCompletedLabel.setAttribute("id", "not-completed-radio-label");
+    notCompletedLabel.setAttribute("for", "not-completed-radio");
+    notCompletedLabel.textContent = "not-completed";
+    notCompletedContainer.appendChild(notCompletedLabel);
+    const notCompletedRadio = document.createElement("input");
+    notCompletedRadio.setAttribute("type", "radio");
+    notCompletedRadio.setAttribute("id", "not-completed-radio");
+    notCompletedRadio.setAttribute("name", "completion_radio");
+    notCompletedRadio.setAttribute("value", "not-completed");
+    notCompletedContainer.appendChild(notCompletedRadio);

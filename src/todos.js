@@ -4,7 +4,7 @@ import { getProject } from "./projects";
 
 class Todo {
     constructor(title = "", description = "", projectID = "0000",
-         dueDate = null, priority = "P4", completionStatus = "Not Complete"){
+         dueDate = null, priority, completionStatus){
         this.id = uuidv4();
         this.title = title;
         this.description = description;
