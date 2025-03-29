@@ -33,7 +33,6 @@ div#sidebar{
 }
 #content{
     grid-column: 2 / 3;
-    background-color: black;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
@@ -104,4 +103,18 @@ div#sidebar{
 .cancel-button{
     background-color: rgba(255, 0, 0, 0.769);
     color: white;
+}
+
+.lists-view-containers{
+
+}
+
+.lists-view{
+
+}
+.todos{
+
+}
+.todos-title{
+
 }

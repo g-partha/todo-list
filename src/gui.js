@@ -1,5 +1,5 @@
 import { getProjectsList } from "./projects";
-import { createTodo, getTodosList } from "./todos";
+import { createTodo, getTodosList, updateTodo } from "./todos";
 
 const container = document.querySelector("div#container");
 
@@ -112,19 +112,23 @@ function openTodoForm(action, todoUniqueId){ //todoUniqueId is only required for
     prioritySelect.setAttribute("name", "priority");
     priorityContainer.appendChild(prioritySelect);
     const priorityOne = document.createElement("option");
-    priorityOne.setAttribute("value", "P1");
+    priorityOne.setAttribute("id", "priority-one");
+    priorityOne.value = "P1";
     priorityOne.textContent = "P1"
     prioritySelect.appendChild(priorityOne);
     const priorityTwo = document.createElement("option");
-    priorityTwo.setAttribute("value", "P2");
+    priorityTwo.setAttribute("id", "priority-two");
+    priorityTwo.value = "P2";
     priorityTwo.textContent = "P2"
     prioritySelect.appendChild(priorityTwo);
     const priorityThree = document.createElement("option");
-    priorityThree.setAttribute("value", "P3");
+    priorityThree.setAttribute("id", "priority-three");
+    priorityThree.value = "P3";
     priorityThree.textContent = "P3"
     prioritySelect.appendChild(priorityThree);
     const priorityFour = document.createElement("option");
-    priorityFour.setAttribute("value", "P4");
+    priorityFour.setAttribute("id", "priority-four");
+    priorityFour.value = "P4";
     priorityFour.setAttribute("selected", "");
     priorityFour.textContent = "P4"
     prioritySelect.appendChild(priorityFour);
@@ -142,7 +146,7 @@ function openTodoForm(action, todoUniqueId){ //todoUniqueId is only required for
     completedRadio.setAttribute("type", "radio");
     completedRadio.setAttribute("id", "completed-radio");
     completedRadio.setAttribute("name", "completion_radio");
-    completedRadio.setAttribute("value", "completed");
+    completedRadio.value = "Completed";
     completedContainer.appendChild(completedRadio);
     const completedLabel = document.createElement("label");
     completedLabel.classList.add("completion-radio-label");
@@ -156,7 +160,7 @@ function openTodoForm(action, todoUniqueId){ //todoUniqueId is only required for
     notCompletedRadio.setAttribute("type", "radio");
     notCompletedRadio.setAttribute("id", "not-completed-radio");
     notCompletedRadio.setAttribute("name", "completion_radio");
-    notCompletedRadio.setAttribute("value", "Not completed");
+    notCompletedRadio.value = "Not completed";
     notCompletedRadio.setAttribute("checked", "");
     notCompletedContainer.appendChild(notCompletedRadio);
     const notCompletedLabel = document.createElement("label");
@@ -199,4 +203,48 @@ function openTodoForm(action, todoUniqueId){ //todoUniqueId is only required for
 
 }
 
-openTodoForm("create");
+function showTodosList(){
+    const todosListContainer = document.createElement("div");
+    todosListContainer.classList.add("lists-view-containers");
+    content.appendChild(todosListContainer);
+
+    const todosListView = document.createElement("div");
+    todosListView.classList.add("lists-view");
+    todosListContainer.appendChild(todosListView);
+
+    const todoNodesArray = [];
+    for(let i = 0; i < getTodosList().length; i++){
+        const currentTodoId = getTodosList()[i].id;
+        todoNodesArray[i] = document.createElement("div");
+        todoNodesArray[i].classList.add("todos");
+        todosListView.appendChild(todoNodesArray[i]);
+        const todoTitleDisplay = document.createElement("div");
+        todoTitleDisplay.classList.add("todos-title");
+        todoTitleDisplay.textContent = getTodosList()[i].title;
+        todoNodesArray[i].appendChild(todoTitleDisplay);
+        todoNodesArray[i].addEventListener("click", () => {
+            openTodoForm("update", currentTodoId);
+            document.querySelector("#title-input").value = getTodosList()[i].title;
+            document.querySelector("#description-input").value = getTodosList()[i].description;
+            document.querySelector("#project-select").value = getTodosList()[i].project;
+            document.querySelector("#due-date-input").value = getTodosList()[i].dueDateLocale;
+            if(getTodosList()[i].priority === "P1"){
+                document.querySelector("#priority-four").removeAttribute("selected");
+                document.querySelector("#priority-one").setAttribute("selected", "");
+            } else if(getTodosList()[i].priority === "P2"){
+                document.querySelector("#priority-four").removeAttribute("selected");
+                document.querySelector("#priority-two").setAttribute("selected", "");
+            } else if(getTodosList()[i].priority === "P3"){
+                document.querySelector("#priority-four").removeAttribute("selected");
+                document.querySelector("#priority-three").setAttribute("selected", "");
+            }
+            if(getTodosList()[i].completionStatus === "Completed"){
+                document.querySelector("#not-completed-radio").removeAttribute("checked");
+                document.querySelector("#completed-radio").setAttribute("checked", "");
+            }
+        })
+
+    }
+}
+
+showTodosList();
