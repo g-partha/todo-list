@@ -1,6 +1,6 @@
 import { getProjectsList } from "./projects";
 import { createTodo, getTodosList, updateTodo } from "./todos";
-
+import editIcon from "./resources/edit-icon.png";
 const container = document.querySelector("div#container");
 
 const sidebar = document.createElement("div");
@@ -9,14 +9,35 @@ container.appendChild(sidebar);
 const navBar = document.createElement("nav");
 navBar.setAttribute("id", "nav-bar");
 sidebar.appendChild(navBar);
-const todosButton = document.createElement("button");
-todosButton.classList.add("nav-buttons");
+const todosButton = document.createElement("p");
+todosButton.classList.add("nav-headings");
 todosButton.textContent = "Todos";
 navBar.appendChild(todosButton);
-const projectsButton = document.createElement("button");
-projectsButton.classList.add("nav-buttons");
+const projectsButton = document.createElement("p");
+projectsButton.classList.add("nav-headings");
 projectsButton.textContent = "Projects";
 navBar.appendChild(projectsButton);
+const listOfProjects = document.createElement("div");
+listOfProjects.setAttribute("id", "list-of-projects");
+navBar.appendChild(listOfProjects);
+const projectNodesArray = [];
+for(let i = 0; i < getProjectsList().length; i++){
+    const projectID =getProjectsList()[i].id;
+    projectNodesArray[i] = document.createElement("div");
+    projectNodesArray[i].classList.add("projects");
+    projectNodesArray[i].textContent = getProjectsList()[i].title;
+    projectNodesArray[i].addEventListener("click", () => {
+        showTodosList(projectID);
+    });
+    listOfProjects.appendChild(projectNodesArray[i]);
+    const projectEditIcon = document.createElement("img");
+    projectEditIcon.classList.add("project-edit-icon");
+    projectEditIcon.src = editIcon;
+    projectEditIcon.addEventListener("click", () => {
+        openProjectForm("update", getProjectsList()[i].id);
+    });
+    projectNodesArray[i].appendChild(projectEditIcon);
+}
 
 const content = document.createElement("div");
 content.setAttribute("id", "content");
@@ -199,11 +220,84 @@ function openTodoForm(action, todoUniqueId){ //todoUniqueId is only required for
         content.removeChild(document.querySelector("#todo-form-container"));
     });
     buttonsContainer.appendChild(cancelButton);
-
-
 }
 
-function showTodosList(){
+function openProjectForm(action, projectUniqueId){ //projectUniqueId is only required for action === "update"
+    if(document.querySelector("#project-form-container")){
+        content.removeChild(document.querySelector("#project-form-container"));
+    }
+    const projectFormContainer = document.createElement("div");
+    projectFormContainer.classList.add("form-containers");
+    projectFormContainer.setAttribute("id", "project-form-container");
+    content.appendChild(projectFormContainer);
+
+    const projectForm = document.createElement("form");
+    projectForm.classList.add("forms");
+    projectFormContainer.appendChild(projectForm);
+
+    const titleContainer = document.createElement("div");
+    titleContainer.classList.add("text-input-containers");
+    projectForm.appendChild(titleContainer);
+    const titleInputLabel = document.createElement("label");
+    titleInputLabel.classList.add("text-input-labels");
+    titleInputLabel.setAttribute("for", "title-input");
+    titleInputLabel.textContent = "Title";
+    titleContainer.appendChild(titleInputLabel);
+    const titleInput = document.createElement("input");
+    titleInput.setAttribute("type", "text");
+    titleInput.setAttribute("name", "title");
+    titleInput.setAttribute("id", "title-input");
+    titleInput.classList.add("text-inputs");
+    titleContainer.appendChild(titleInput);
+
+    const descriptionContainer = document.createElement("div");
+    descriptionContainer.classList.add("text-input-containers");
+    projectForm.appendChild(descriptionContainer);
+    const descriptionInputLabel = document.createElement("label");
+    descriptionInputLabel.classList.add("text-input-labels");
+    descriptionInputLabel.setAttribute("for", "description-input");
+    descriptionInputLabel.textContent = "Description";
+    descriptionContainer.appendChild(descriptionInputLabel);
+    const descriptionInput = document.createElement("input");
+    descriptionInput.setAttribute("type", "text");
+    descriptionInput.setAttribute("name", "description");
+    descriptionInput.setAttribute("id", "description-input");
+    descriptionInput.classList.add("text-inputs");
+    descriptionContainer.appendChild(descriptionInput);
+
+    const buttonsContainer = document.createElement("div");
+    buttonsContainer.classList.add("buttons-container");
+    projectForm.appendChild(buttonsContainer);
+    const submitButton = document.createElement("button");
+    submitButton.classList.add("submit-button");
+    if(action === "create"){
+        submitButton.textContent = "Create";
+        submitButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            createProject(titleInput.value, descriptionInput.value);
+            content.removeChild(document.querySelector("#project-form-container"));
+        });
+    } else if(action === "update"){
+        submitButton.textContent = "Update";
+        submitButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            updateProject(projectUniqueId, titleInput.value, descriptionInput.value,);
+            content.removeChild(document.querySelector("#project-form-container"));
+        });
+    }
+    buttonsContainer.appendChild(submitButton);
+    const cancelButton = document.createElement("button");
+    cancelButton.classList.add("cancel-button");
+    cancelButton.textContent = "Cancel";
+    cancelButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        content.removeChild(document.querySelector("#project-form-container"));
+    });
+    buttonsContainer.appendChild(cancelButton);
+}
+
+export function showTodosList(){
+    content.textContent = "";
     const todosListContainer = document.createElement("div");
     todosListContainer.classList.add("lists-view-containers");
     content.appendChild(todosListContainer);
@@ -246,5 +340,6 @@ function showTodosList(){
 
     }
 }
-
 showTodosList();
+
+openProjectForm("create");

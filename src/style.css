@@ -24,13 +24,28 @@ div#sidebar{
     gap: 10px;
     
 }
-.nav-buttons{
+.nav-headings{
     background: none;
     border: none;
     color: white;
-    font-size: 16px;
+    font-size: 20px;
     text-align: left;
 }
+
+.list-of-projects{
+    display: flex;
+    gap: 10px;
+}
+.projects{
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.project-edit-icon{
+    width: 16px;
+}
+
 #content{
     grid-column: 2 / 3;
     display: grid;
@@ -106,15 +121,22 @@ div#sidebar{
 }
 
 .lists-view-containers{
-
+    grid-column: 1/ 2;
+    grid-row: 1 / 2;
+    display: grid;
 }
 
 .lists-view{
-
+    padding: 50px 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 .todos{
-
+    background-color: rgba(165, 42, 42, 0.789);
+    padding: 20px 30px;
+    border-radius: 10px;
 }
 .todos-title{
-
+    color:aliceblue;
 }
