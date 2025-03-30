@@ -25,12 +25,13 @@ for(let i = 0; i < getProjectsList().length; i++){
     const projectID = getProjectsList()[i].id;
     projectNodesArray[i] = document.createElement("div");
     projectNodesArray[i].classList.add("projects");
-    projectNodesArray[i].textContent = getProjectsList()[i].title;
-    projectNodesArray[i].addEventListener("click", () => {
-        console.log(projectID);
+    listOfProjects.appendChild(projectNodesArray[i]);
+    const projectTitle = document.createElement("span");
+    projectTitle.textContent = getProjectsList()[i].title;
+    projectTitle.addEventListener("click", () => {
         showTodosList(projectID);
     });
-    listOfProjects.appendChild(projectNodesArray[i]);
+    projectNodesArray[i].appendChild(projectTitle);
     const projectEditIcon = document.createElement("img");
     projectEditIcon.classList.add("project-edit-icon");
     projectEditIcon.src = editIcon;
@@ -208,7 +209,7 @@ function openTodoForm(action, todoUniqueId){ //todoUniqueId is only required for
         submitButton.textContent = "Update";
         submitButton.addEventListener("click", (event) => {
             event.preventDefault();
-            updateTodo(todoUniqueId, titleInput.value, descriptionInput.value, projectSelect.value, );
+            updateTodo(todoUniqueId, titleInput.value, descriptionInput.value, projectSelect.value,  dueDateInput.value, );
             content.removeChild(document.querySelector("#todo-form-container"));
         });
     }
