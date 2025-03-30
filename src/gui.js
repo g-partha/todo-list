@@ -1,4 +1,4 @@
-import { getProjectsList, createProject, updateProject} from "./projects";
+import { getProjectsList, createProject, updateProject } from "./projects";
 import { createTodo, getTodosList, updateTodo } from "./todos";
 import editIcon from "./resources/edit-icon.png";
 const container = document.querySelector("div#container");
@@ -6,47 +6,83 @@ const container = document.querySelector("div#container");
 const sidebar = document.createElement("div");
 sidebar.setAttribute("id", "sidebar");
 container.appendChild(sidebar);
+const logoContainer = document.createElement("div");
+logoContainer.textContent = "Todo List";
+logoContainer.setAttribute("id", "logo-container");
+sidebar.appendChild(logoContainer);
 const navBar = document.createElement("nav");
 navBar.setAttribute("id", "nav-bar");
 sidebar.appendChild(navBar);
 const todosButton = document.createElement("p");
 todosButton.classList.add("nav-headings");
 todosButton.textContent = "Todos";
+todosButton.addEventListener("click", () => {
+    showTodosList("all");
+});
 navBar.appendChild(todosButton);
 const projectsButton = document.createElement("p");
 projectsButton.classList.add("nav-headings");
 projectsButton.textContent = "Projects";
 navBar.appendChild(projectsButton);
-const listOfProjects = document.createElement("div");
-listOfProjects.setAttribute("id", "list-of-projects");
-navBar.appendChild(listOfProjects);
-const projectNodesArray = [];
-for(let i = 0; i < getProjectsList().length; i++){
-    const projectID = getProjectsList()[i].id;
-    projectNodesArray[i] = document.createElement("div");
-    projectNodesArray[i].classList.add("projects");
-    listOfProjects.appendChild(projectNodesArray[i]);
-    const projectTitle = document.createElement("span");
-    projectTitle.textContent = getProjectsList()[i].title;
-    projectTitle.addEventListener("click", () => {
-        showTodosList(projectID);
-    });
-    projectNodesArray[i].appendChild(projectTitle);
-    const projectEditIcon = document.createElement("img");
-    projectEditIcon.classList.add("project-edit-icon");
-    projectEditIcon.src = editIcon;
-    projectEditIcon.addEventListener("click", () => {
-        openProjectForm("update", getProjectsList()[i].id);
-    });
-    projectNodesArray[i].appendChild(projectEditIcon);
+
+export function showProjectList() {
+    if(document.querySelector("#list-of-projects")){
+        navBar.removeChild(document.querySelector("#list-of-projects"));
+    }
+    const listOfProjects = document.createElement("div");
+    listOfProjects.setAttribute("id", "list-of-projects");
+    navBar.appendChild(listOfProjects);
+    const projectNodesArray = [];
+    for (let i = 0; i < getProjectsList().length; i++) {
+        const projectID = getProjectsList()[i].id;
+        projectNodesArray[i] = document.createElement("div");
+        projectNodesArray[i].classList.add("projects");
+        listOfProjects.appendChild(projectNodesArray[i]);
+        const projectTitle = document.createElement("span");
+        projectTitle.textContent = getProjectsList()[i].title;
+        projectTitle.addEventListener("click", () => {
+            showTodosList(projectID);
+        });
+        projectNodesArray[i].appendChild(projectTitle);
+        const projectEditIcon = document.createElement("img");
+        projectEditIcon.classList.add("project-edit-icon");
+        projectEditIcon.src = editIcon;
+        projectEditIcon.addEventListener("click", () => {
+            openProjectForm("update", getProjectsList()[i].id);
+            document.querySelector("#project-title-input").value = getProjectsList()[i].title;
+            document.querySelector("#project-description-input").value = getProjectsList()[i].description;
+        });
+        projectNodesArray[i].appendChild(projectEditIcon);
+    }
 }
+
+
+const createButtonsContainer = document.createElement("div");
+createButtonsContainer.setAttribute("id", "create-buttons-container");
+sidebar.appendChild(createButtonsContainer);
+const createTodoButton = document.createElement("button");
+createTodoButton.classList.add("create-buttons");
+createTodoButton.textContent = "Add To-do";
+createTodoButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    openTodoForm("create");
+});
+createButtonsContainer.appendChild(createTodoButton);
+const createProjectButton = document.createElement("button");
+createProjectButton.classList.add("create-buttons");
+createProjectButton.textContent = "Add project";
+createProjectButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    openProjectForm("create");
+});
+createButtonsContainer.appendChild(createProjectButton);
 
 const content = document.createElement("div");
 content.setAttribute("id", "content");
 container.appendChild(content);
 
-function openTodoForm(action, todoUniqueId){ //todoUniqueId is only required for action === "update"
-    if(document.querySelector("#todo-form-container")){
+function openTodoForm(action, todoUniqueId) { //todoUniqueId is only required for action === "update"
+    if (document.querySelector("#todo-form-container")) {
         content.removeChild(document.querySelector("#todo-form-container"));
     }
     const todoFormContainer = document.createElement("div");
@@ -101,7 +137,7 @@ function openTodoForm(action, todoUniqueId){ //todoUniqueId is only required for
     projectSelect.setAttribute("name", "project");
     projectContainer.appendChild(projectSelect);
     const projectOptions = [];
-    for(let i = 0; i < getProjectsList().length; i++){
+    for (let i = 0; i < getProjectsList().length; i++) {
         projectOptions[i] = document.createElement("option");
         projectOptions[i].setAttribute("value", getProjectsList()[i].id);
         projectOptions[i].textContent = getProjectsList()[i].title;
@@ -193,24 +229,37 @@ function openTodoForm(action, todoUniqueId){ //todoUniqueId is only required for
     notCompletedContainer.appendChild(notCompletedLabel);
 
 
+    let completionStatusSelected;
+    if (completedRadio.hasAttribute("checked")) {
+        completionStatusSelected = "Completed";
+    } else if (notCompletedRadio.hasAttribute("checked")) {
+        completionStatusSelected = "Not completed"
+    }
+
     const buttonsContainer = document.createElement("div");
     buttonsContainer.classList.add("buttons-container");
     todoForm.appendChild(buttonsContainer);
     const submitButton = document.createElement("button");
     submitButton.classList.add("submit-button");
-    if(action === "create"){
+    if (action === "create") {
         submitButton.textContent = "Create";
         submitButton.addEventListener("click", (event) => {
             event.preventDefault();
-            createTodo(titleInput.value, descriptionInput.value, projectSelect.value, );
+            createTodo(titleInput.value, descriptionInput.value, projectSelect.value, dueDateInput.value,
+                prioritySelect.value, completionStatusSelected
+            );
             content.removeChild(document.querySelector("#todo-form-container"));
+            showTodosList("all");
         });
-    } else if(action === "update"){
+    } else if (action === "update") {
         submitButton.textContent = "Update";
         submitButton.addEventListener("click", (event) => {
             event.preventDefault();
-            updateTodo(todoUniqueId, titleInput.value, descriptionInput.value, projectSelect.value,  dueDateInput.value, );
+            updateTodo(todoUniqueId, titleInput.value, descriptionInput.value, projectSelect.value, dueDateInput.value,
+                prioritySelect.value, completionStatusSelected
+            );
             content.removeChild(document.querySelector("#todo-form-container"));
+            showTodosList("all");
         });
     }
     buttonsContainer.appendChild(submitButton);
@@ -224,8 +273,8 @@ function openTodoForm(action, todoUniqueId){ //todoUniqueId is only required for
     buttonsContainer.appendChild(cancelButton);
 }
 
-function openProjectForm(action, projectUniqueId){ //projectUniqueId is only required for action === "update"
-    if(document.querySelector("#project-form-container")){
+function openProjectForm(action, projectUniqueId) { //projectUniqueId is only required for action === "update"
+    if (document.querySelector("#project-form-container")) {
         content.removeChild(document.querySelector("#project-form-container"));
     }
     const projectFormContainer = document.createElement("div");
@@ -242,13 +291,13 @@ function openProjectForm(action, projectUniqueId){ //projectUniqueId is only req
     projectForm.appendChild(titleContainer);
     const titleInputLabel = document.createElement("label");
     titleInputLabel.classList.add("text-input-labels");
-    titleInputLabel.setAttribute("for", "title-input");
+    titleInputLabel.setAttribute("for", "project-title-input");
     titleInputLabel.textContent = "Title";
     titleContainer.appendChild(titleInputLabel);
     const titleInput = document.createElement("input");
     titleInput.setAttribute("type", "text");
     titleInput.setAttribute("name", "title");
-    titleInput.setAttribute("id", "title-input");
+    titleInput.setAttribute("id", "project-title-input");
     titleInput.classList.add("text-inputs");
     titleContainer.appendChild(titleInput);
 
@@ -257,13 +306,13 @@ function openProjectForm(action, projectUniqueId){ //projectUniqueId is only req
     projectForm.appendChild(descriptionContainer);
     const descriptionInputLabel = document.createElement("label");
     descriptionInputLabel.classList.add("text-input-labels");
-    descriptionInputLabel.setAttribute("for", "description-input");
+    descriptionInputLabel.setAttribute("for", "project-description-input");
     descriptionInputLabel.textContent = "Description";
     descriptionContainer.appendChild(descriptionInputLabel);
     const descriptionInput = document.createElement("input");
     descriptionInput.setAttribute("type", "text");
     descriptionInput.setAttribute("name", "description");
-    descriptionInput.setAttribute("id", "description-input");
+    descriptionInput.setAttribute("id", "project-description-input");
     descriptionInput.classList.add("text-inputs");
     descriptionContainer.appendChild(descriptionInput);
 
@@ -272,19 +321,23 @@ function openProjectForm(action, projectUniqueId){ //projectUniqueId is only req
     projectForm.appendChild(buttonsContainer);
     const submitButton = document.createElement("button");
     submitButton.classList.add("submit-button");
-    if(action === "create"){
+    if (action === "create") {
         submitButton.textContent = "Create";
         submitButton.addEventListener("click", (event) => {
             event.preventDefault();
             createProject(titleInput.value, descriptionInput.value);
             content.removeChild(document.querySelector("#project-form-container"));
+            showProjectList();
+
         });
-    } else if(action === "update"){
+    } else if (action === "update") {
         submitButton.textContent = "Update";
         submitButton.addEventListener("click", (event) => {
             event.preventDefault();
             updateProject(projectUniqueId, titleInput.value, descriptionInput.value,);
             content.removeChild(document.querySelector("#project-form-container"));
+            showProjectList();
+
         });
     }
     buttonsContainer.appendChild(submitButton);
@@ -298,7 +351,7 @@ function openProjectForm(action, projectUniqueId){ //projectUniqueId is only req
     buttonsContainer.appendChild(cancelButton);
 }
 
-export function showTodosList(projectCheckID){
+export function showTodosList(projectCheckID) {
     content.textContent = "";
     const todosListContainer = document.createElement("div");
     todosListContainer.classList.add("lists-view-containers");
@@ -311,20 +364,20 @@ export function showTodosList(projectCheckID){
     const todoArray = [];
     const todoNodesArray = [];
 
-    if(projectCheckID === "all"){
-        for(let i = 0; i < getTodosList().length; i++){
+    if (projectCheckID === "all") {
+        for (let i = 0; i < getTodosList().length; i++) {
             todoArray.push(getTodosList()[i]);
         }
     } else {
         const filteredTodosByProject = getTodosList().filter((item) => {
             return item.projectID === projectCheckID;
         })
-        for(let i = 0; i < filteredTodosByProject.length; i++){
+        for (let i = 0; i < filteredTodosByProject.length; i++) {
             todoArray.push(filteredTodosByProject[i]);
         }
     }
 
-    for(let i = 0; i < todoArray.length; i++){
+    for (let i = 0; i < todoArray.length; i++) {
         const currentTodoId = todoArray[i].id;
         todoNodesArray[i] = document.createElement("div");
         todoNodesArray[i].classList.add("todos");
@@ -339,17 +392,17 @@ export function showTodosList(projectCheckID){
             document.querySelector("#description-input").value = todoArray[i].description;
             document.querySelector("#project-select").value = todoArray[i].project;
             document.querySelector("#due-date-input").value = todoArray[i].dueDateLocale;
-            if(todoArray[i].priority === "P1"){
+            if (todoArray[i].priority === "P1") {
                 document.querySelector("#priority-four").removeAttribute("selected");
                 document.querySelector("#priority-one").setAttribute("selected", "");
-            } else if(todoArray[i].priority === "P2"){
+            } else if (todoArray[i].priority === "P2") {
                 document.querySelector("#priority-four").removeAttribute("selected");
                 document.querySelector("#priority-two").setAttribute("selected", "");
-            } else if(todoArray[i].priority === "P3"){
+            } else if (todoArray[i].priority === "P3") {
                 document.querySelector("#priority-four").removeAttribute("selected");
                 document.querySelector("#priority-three").setAttribute("selected", "");
             }
-            if(todoArray[i].completionStatus === "Completed"){
+            if (todoArray[i].completionStatus === "Completed") {
                 document.querySelector("#not-completed-radio").removeAttribute("checked");
                 document.querySelector("#completed-radio").setAttribute("checked", "");
             }
@@ -357,4 +410,3 @@ export function showTodosList(projectCheckID){
 
     }
 }
-showTodosList("all");
