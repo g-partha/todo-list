@@ -1,6 +1,5 @@
-import {createTodo, getTodo, getTodosByProject, deleteTodo, getTodosList, updateTodo, recoverTodosFromLocalStorage,} from "./todos";
-import {createProject, getProject, deleteProject, getProjectsList, updateProject, recoverProjectsFromLocalStorage,} from "./projects";
-import "./tests";
+import {recoverTodosFromLocalStorage,} from "./todos";
+import {recoverProjectsFromLocalStorage,} from "./projects";
 import {showTodosList, showProjectList} from "./gui";
 import "./style.css"
 
