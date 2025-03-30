@@ -1,4 +1,4 @@
-import { getProjectsList } from "./projects";
+import { getProjectsList, createProject, updateProject} from "./projects";
 import { createTodo, getTodosList, updateTodo } from "./todos";
 import editIcon from "./resources/edit-icon.png";
 const container = document.querySelector("div#container");
@@ -22,11 +22,12 @@ listOfProjects.setAttribute("id", "list-of-projects");
 navBar.appendChild(listOfProjects);
 const projectNodesArray = [];
 for(let i = 0; i < getProjectsList().length; i++){
-    const projectID =getProjectsList()[i].id;
+    const projectID = getProjectsList()[i].id;
     projectNodesArray[i] = document.createElement("div");
     projectNodesArray[i].classList.add("projects");
     projectNodesArray[i].textContent = getProjectsList()[i].title;
     projectNodesArray[i].addEventListener("click", () => {
+        console.log(projectID);
         showTodosList(projectID);
     });
     listOfProjects.appendChild(projectNodesArray[i]);
@@ -296,7 +297,7 @@ function openProjectForm(action, projectUniqueId){ //projectUniqueId is only req
     buttonsContainer.appendChild(cancelButton);
 }
 
-export function showTodosList(){
+export function showTodosList(projectCheckID){
     content.textContent = "";
     const todosListContainer = document.createElement("div");
     todosListContainer.classList.add("lists-view-containers");
@@ -306,33 +307,48 @@ export function showTodosList(){
     todosListView.classList.add("lists-view");
     todosListContainer.appendChild(todosListView);
 
+    const todoArray = [];
     const todoNodesArray = [];
-    for(let i = 0; i < getTodosList().length; i++){
-        const currentTodoId = getTodosList()[i].id;
+
+    if(projectCheckID === "all"){
+        for(let i = 0; i < getTodosList().length; i++){
+            todoArray.push(getTodosList()[i]);
+        }
+    } else {
+        const filteredTodosByProject = getTodosList().filter((item) => {
+            return item.projectID === projectCheckID;
+        })
+        for(let i = 0; i < filteredTodosByProject.length; i++){
+            todoArray.push(filteredTodosByProject[i]);
+        }
+    }
+
+    for(let i = 0; i < todoArray.length; i++){
+        const currentTodoId = todoArray[i].id;
         todoNodesArray[i] = document.createElement("div");
         todoNodesArray[i].classList.add("todos");
         todosListView.appendChild(todoNodesArray[i]);
         const todoTitleDisplay = document.createElement("div");
         todoTitleDisplay.classList.add("todos-title");
-        todoTitleDisplay.textContent = getTodosList()[i].title;
+        todoTitleDisplay.textContent = todoArray[i].title;
         todoNodesArray[i].appendChild(todoTitleDisplay);
         todoNodesArray[i].addEventListener("click", () => {
             openTodoForm("update", currentTodoId);
-            document.querySelector("#title-input").value = getTodosList()[i].title;
-            document.querySelector("#description-input").value = getTodosList()[i].description;
-            document.querySelector("#project-select").value = getTodosList()[i].project;
-            document.querySelector("#due-date-input").value = getTodosList()[i].dueDateLocale;
-            if(getTodosList()[i].priority === "P1"){
+            document.querySelector("#title-input").value = todoArray[i].title;
+            document.querySelector("#description-input").value = todoArray[i].description;
+            document.querySelector("#project-select").value = todoArray[i].project;
+            document.querySelector("#due-date-input").value = todoArray[i].dueDateLocale;
+            if(todoArray[i].priority === "P1"){
                 document.querySelector("#priority-four").removeAttribute("selected");
                 document.querySelector("#priority-one").setAttribute("selected", "");
-            } else if(getTodosList()[i].priority === "P2"){
+            } else if(todoArray[i].priority === "P2"){
                 document.querySelector("#priority-four").removeAttribute("selected");
                 document.querySelector("#priority-two").setAttribute("selected", "");
-            } else if(getTodosList()[i].priority === "P3"){
+            } else if(todoArray[i].priority === "P3"){
                 document.querySelector("#priority-four").removeAttribute("selected");
                 document.querySelector("#priority-three").setAttribute("selected", "");
             }
-            if(getTodosList()[i].completionStatus === "Completed"){
+            if(todoArray[i].completionStatus === "Completed"){
                 document.querySelector("#not-completed-radio").removeAttribute("checked");
                 document.querySelector("#completed-radio").setAttribute("checked", "");
             }
@@ -340,6 +356,4 @@ export function showTodosList(){
 
     }
 }
-showTodosList();
-
-openProjectForm("create");
+showTodosList("all");
